@@ -1,11 +1,8 @@
 from typing import Optional
-from enum import IntEnum
+from core.models.pay_types import PayTypes
 from pydantic import validator
 
 from sqlmodel import Field, SQLModel
-class PayTypes(IntEnum):
-    type_A = 0
-    type_B = 1
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
