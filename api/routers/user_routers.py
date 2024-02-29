@@ -33,4 +33,15 @@ def create_user(user):
         session.add(user)
         session.commit()
 
+@router.get("/get/{user_id}", status_code=status.HTTP_200_OK, response_model=User)
+async def get(request: Request, user_id):
+    return get_user(user_id)
+
+def get_user(user_id):
+    engine = create_engine("sqlite:///database.db")
+
+    with Session(engine) as session:
+        statement = select(User).where(User.id == user_id)
+        result  = session.exec(statement).first()
+        return result
 

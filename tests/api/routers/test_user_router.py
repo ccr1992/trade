@@ -15,9 +15,7 @@ class TestUserRouter(unittest.TestCase):
     @patch(
         "api.routers.user_routers.create_user",
     )
-    def test_create(
-        self,
-        mock_template_response: MagicMock,
+    def test_create(self, mock_response: MagicMock,
     ) -> None:
         response: httpx.Response = client.post(
             "/users/create/",
@@ -34,3 +32,15 @@ class TestUserRouter(unittest.TestCase):
             },
         )
         self.assertEqual(response.status_code, 422)
+
+    @patch(
+        "api.routers.user_routers.get_user"
+    )
+    def test_get(self,mock_response: MagicMock,
+    ) -> None:
+        mock_response.return_value = self.fake_user
+
+        response: httpx.Response = client.get(
+            "/users/get/1")
+        self.assertEqual(response.status_code, 200)
+

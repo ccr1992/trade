@@ -21,15 +21,6 @@ class TestUser(unittest.TestCase):
         self.assertIsNone(user.paid)
         self.assertIsNone(user.to_pay)
 
-    def test_default_values(self):
-        user = User()
-
-        self.assertIsNone(user.id)
-        self.assertIsNone(user.pay_type)
-        self.assertIsNone(user.name)
-        self.assertIsNone(user.paid)
-        self.assertIsNone(user.to_pay)
-
     def test_validation_user_creation(self):
         json_user = {"id":1, "pay_type":"fake", "name":"Usuario_A", "paid":100.0, "to_pay":50.0}
         user = User()
