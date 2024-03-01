@@ -1,14 +1,16 @@
 from core.models.pay_types import PayTypes
+from core.models.paymentAbc import PaymentABC
 from sqlmodel import Field, SQLModel
 from typing import Optional, ClassVar
 from pydantic import validator
-
-class PaymentBase(SQLModel):
+class PaymentBase(SQLModel, PaymentABC):
     DEFAULT_TAX: ClassVar[float] = 0.01
 
     value: float
     full_paid: bool | None = False
     tax: float | None = DEFAULT_TAX
+
+    user_id: int = Field(default=None, foreign_key="user.id")
 
     def pay(self, price, mode: PayTypes):
         match mode:

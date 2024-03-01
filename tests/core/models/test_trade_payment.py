@@ -1,10 +1,10 @@
 import unittest
-from trade.core.models.blockchain_payment import BlockchainPayment
+from trade.core.models.blockchain_payment import TradePayment
 from pydantic import ValidationError
 
-class TestBlockchainPayment(unittest.TestCase):
+class TestTradePayment(unittest.TestCase):
     def test_payment_creation(self):
-        payment = BlockchainPayment(id=1, value=100, full_paid=True)
+        payment = TradePayment(id=1, value=100, full_paid=True)
 
         self.assertEqual(payment.id, 1)
         self.assertEqual(payment.value, 100)
@@ -12,7 +12,7 @@ class TestBlockchainPayment(unittest.TestCase):
         
 
     def test_default_values(self):
-        payment = BlockchainPayment()
+        payment = TradePayment()
 
         self.assertEqual(payment.id, None)
         self.assertEqual(payment.value, None)
@@ -20,13 +20,13 @@ class TestBlockchainPayment(unittest.TestCase):
 
     def test_validation_payment_value(self):
         json_payment = {"id":1, "value":0}
-        payment = BlockchainPayment()
+        payment = TradePayment()
         with self.assertRaises(ValidationError):
             payment.validate(json_payment)
     
     def test_validation_payment_negative_value(self):
         json_payment = {"id":1, "value":-100}
-        payment = BlockchainPayment()
+        payment = TradePayment()
         with self.assertRaises(ValidationError):
             payment.validate(json_payment)
 
