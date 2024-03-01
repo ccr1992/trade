@@ -8,8 +8,8 @@ class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     pay_type: PayTypes
     name: Optional[str]
-    paid: Optional[float]
-    to_pay: Optional[float]
+    paid: Optional[float] | None = 0.0
+    to_pay: Optional[float] | None = 0.0
 
     @validator("pay_type")
     def validate_age(cls, v):

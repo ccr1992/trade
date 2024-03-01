@@ -14,18 +14,19 @@ Payment_3 = FiatPayment(value= 100, full_paid=False, user_id=45)
 #TODO USUARIO NO EXISTE
 
 
-engine = create_engine("sqlite:///database.db")
-SQLModel.metadata.create_all(engine)
-
 CLEAN_DB = True
 
+
+engine = create_engine("sqlite:///database.db")
 if CLEAN_DB:
-    with Session(engine) as session:
-      statement = delete(User)
-      _ = session.exec(statement)
-      statement = delete(FiatPayment)
-      _ = session.exec(statement)
-      session.commit()
+    SQLModel.metadata.drop_all(engine)
+    # with Session(engine) as session:
+    #   statement = delete(User)
+    #   _ = session.exec(statement)
+    #   statement = delete(FiatPayment)
+    #   _ = session.exec(statement)
+    #   session.commit()
+SQLModel.metadata.create_all(engine)
 
 with Session(engine) as session:
     session.add(User_1)
@@ -40,8 +41,6 @@ with Session(engine) as session:
     print(User)
 
 
-engine = create_engine("sqlite:///database.db")
-SQLModel.metadata.create_all(engine)
 
 with Session(engine) as session:
     session.add(Payment_1)

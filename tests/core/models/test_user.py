@@ -18,8 +18,8 @@ class TestUser(unittest.TestCase):
         self.assertIsNone(user.id)
         self.assertIsNone(user.pay_type)
         self.assertIsNone(user.name)
-        self.assertIsNone(user.paid)
-        self.assertIsNone(user.to_pay)
+        self.assertEqual(user.paid, 0.0)
+        self.assertEqual(user.to_pay, 0.0)
 
     def test_validation_user_creation(self):
         json_user = {"id":1, "pay_type":"fake", "name":"Usuario_A", "paid":100.0, "to_pay":50.0}

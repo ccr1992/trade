@@ -6,7 +6,7 @@ from fastapi.exceptions import RequestValidationError
 
 #TODO MOVER A OBJETO
 from sqlmodel import  Session, create_engine, select, SQLModel
-
+from core.db.database_helper import DatabaseHelper
 
 router = APIRouter(
     prefix="/users",
@@ -26,12 +26,7 @@ async def createUser(request: User):
 
 def create_user(user):
     #TODO LLEVAR A CLASE DE MYSQL
-    engine = create_engine("sqlite:///database.db")
-    SQLModel.metadata.create_all(engine)
-
-    with Session(engine) as session:
-        session.add(user)
-        session.commit()
+    DatabaseHelper.add(user)
 
 @router.get("/get/{user_id}", status_code=status.HTTP_200_OK, response_model=User)
 async def get(request: Request, user_id):
