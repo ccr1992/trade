@@ -10,9 +10,8 @@ class TestPaymentBase(unittest.TestCase):
 
     def test_pay_with_invalid_param(self):
         payment = PaymentBase(value=500)
-        price = 100
         with self.assertRaises(NotImplementedError):
-            payment.pay(price, "Invalid_type")
+            payment.pay("Invalid_type")
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 import unittest
-from trade.core.models.blockchain_payment import BlockchainPayment
+from core.models.blockchain_payment import BlockchainPayment
 from pydantic import ValidationError
 
 class TestBlockchainPayment(unittest.TestCase):

@@ -12,19 +12,19 @@ class PaymentBase(SQLModel, PaymentABC):
 
     user_id: int = Field(default=None, foreign_key="user.id")
 
-    def pay(self, price, mode: PayTypes):
+    def pay(self, mode: PayTypes):
         match mode:
           case PayTypes.type_A:
-              self._pay_type_a(price)
+              self._pay_type_a()
           case PayTypes.type_B:
-              self._pay_type_b(price)
+              self._pay_type_b()
           case _:
             raise NotImplementedError("No se ha implementado lógica para este método de pago.")
     
-    def _pay_type_a(self, price):
+    def _pay_type_a(self):
        pass
     
-    def _pay_type_b(self, price):
+    def _pay_type_b(self):
        pass
     
     @validator("value")

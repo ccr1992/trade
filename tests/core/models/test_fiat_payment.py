@@ -36,8 +36,7 @@ class TestFiatPayment(unittest.TestCase):
 
     @patch.object(FiatPayment, 'convert')
     def test_pay_should_convert_before_pay(self, mocked_method: MagicMock):
-        price_to_pay = 1000
-        self.empty_payment.pay(price_to_pay, PayTypes.type_A)
+        self.empty_payment.pay(PayTypes.type_A)
         mocked_method.assert_called_once()
 
 
