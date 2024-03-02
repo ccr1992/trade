@@ -1,5 +1,6 @@
 from typing import Optional
 from core.models.pay_types import PayTypes
+from core.models.user_resume import UserResume
 from pydantic import validator
 
 from sqlmodel import Field, SQLModel
@@ -17,3 +18,11 @@ class User(SQLModel, table=True):
             raise ValueError("Tipo de pago no permitido")
         return v
 
+
+    def get_user_resume(self):
+        return UserResume(id=self.id, paid=self.paid, to_pay=self.to_pay)
+    
+    def update_user(self, user_resume):
+        self.paid = user_resume.paid
+        self.to_pay = user_resume.to_pay
+        

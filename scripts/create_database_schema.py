@@ -1,4 +1,7 @@
 from core.models.fiat_payment import FiatPayment
+from core.models.trade_payment import TradePayment
+from core.models.blockchain_payment import BlockchainPayment
+from core.models.trade import Trade
 from core.models.user import User, PayTypes
 from sqlmodel import  Session, create_engine, select, SQLModel, delete
 
@@ -11,6 +14,8 @@ User_3 = User(id=3, pay_type=PayTypes.type_B, name="user_3")
 Payment_1 = FiatPayment(value= 100, full_paid=False, user_id=1)
 Payment_2 = FiatPayment(value= 100, full_paid=False, user_id=2)
 Payment_3 = FiatPayment(value= 100, full_paid=False, user_id=45)
+
+trade = Trade(id=1234)
 #TODO USUARIO NO EXISTE
 
 
@@ -32,6 +37,10 @@ with Session(engine) as session:
     session.add(User_1)
     session.add(User_2)
     session.add(User_3)
+    session.add(Payment_1)
+    session.add(Payment_2)
+    session.add(Payment_3)
+    session.add(trade)
     session.commit()
     
 
@@ -41,13 +50,6 @@ with Session(engine) as session:
     print(User)
 
 
-
-with Session(engine) as session:
-    session.add(Payment_1)
-    session.add(Payment_2)
-    session.add(Payment_3)
-    session.commit()
-    
 
 with Session(engine) as session:
     statement = select(FiatPayment).where(FiatPayment.user_id == 1)

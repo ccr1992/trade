@@ -48,6 +48,5 @@ class TestUserRouter(unittest.TestCase):
 
         response: httpx.Response = client.get(
             "/public_methods/get_user_resume/1")
-        print("response", response.__dict__)
         self.assertEqual(response.status_code, 200)
 

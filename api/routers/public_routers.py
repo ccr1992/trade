@@ -36,9 +36,14 @@ async def create_payment_pipeline(request: Pipeline):
 def execute_pipeline(pipeline):
     fiat = pipeline.payment
     user = DatabaseHelper.get_user(fiat.user_id)
-    fiat.pay(user.pay_type)
+    user_resume = fiat.pay(user.pay_type, user.get_user_resume())
+    trade = DatabaseHelper.get_trade(pipeline.trade_id)
+    user_resume, payments = trade.pay(fiat.price_without_taxes(), user.pay_type, user_resume)
     DatabaseHelper.add(fiat)
-    #TODO AÑADIR PAGOS PARA BLOCKCAHIN Y TRADE
+    for payment in payments:
+        DatabaseHelper.add(payment)
+    user.update_user(user_resume)
+    DatabaseHelper.update(user)
 
 
 @router.get("/get_user_resume/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResume)

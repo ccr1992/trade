@@ -1,5 +1,6 @@
 import unittest
-from core.models.user import User 
+from core.models.user import User
+from core.models.user_resume import UserResume
 from pydantic import ValidationError
 
 class TestUser(unittest.TestCase):
@@ -26,6 +27,12 @@ class TestUser(unittest.TestCase):
         user = User()
         with self.assertRaises(ValidationError):
             user.validate(json_user)
+
+    def test_get_user_resume(self):
+        user = User(id=1, pay_type=1, name="Usuario_A", paid=100.0, to_pay=50.0)
+        resume = user.get_user_resume()
+        expected = UserResume(id=1, paid=100.0, to_pay=50.0)
+        self.assertEqual(resume, expected)
 
 if __name__ == '__main__':
     unittest.main()
