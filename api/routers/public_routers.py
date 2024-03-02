@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, status
 from core.models.imputs.pipeline import Pipeline
-from core.models.outputs.user_resume import UserResume
+from core.models.user_resume import UserResume
 from fastapi.exceptions import RequestValidationError
 from core.db.database_helper import DatabaseHelper
 from fastapi.responses import JSONResponse
@@ -52,4 +52,4 @@ async def get_resume(request: Request, user_id):
     return get_user_resume(user_id)
 
 def get_user_resume(user_id):
-    pass
+    return DatabaseHelper.get_user(user_id).get_user_resume()

@@ -4,7 +4,7 @@ from unittest.mock import patch, MagicMock
 from api.main import app
 from core.models.imputs.pipeline import Pipeline
 from core.models.fiat_payment import FiatPayment
-from core.models.outputs.user_resume import UserResume
+from core.models.user_resume import UserResume
 import unittest
 import httpx
 from core.db.database_helper import DatabaseHelper
@@ -23,7 +23,7 @@ client = TestClient(app)
 class TestUserRouter(unittest.TestCase):
     payment = FiatPayment()
     fake_pipeline = Pipeline(payment=payment, trade_id=1234)
-    fake_user_resume = UserResume(user_id=1, pending=4.4, paid=6.8)
+    fake_user_resume = UserResume(user_id=1, to_pay=4.4, paid=6.8)
 
 
     @patch(
