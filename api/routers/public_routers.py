@@ -44,6 +44,7 @@ def execute_pipeline(pipeline):
         DatabaseHelper.add(payment)
     user.update_user(user_resume)
     DatabaseHelper.update(user)
+    return user_resume
 
 
 @router.get("/get_user_resume/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResume)
