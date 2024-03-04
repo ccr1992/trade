@@ -52,6 +52,6 @@ with Session(engine) as session:
 
 
 with Session(engine) as session:
-    statement = select(FiatPayment).where(FiatPayment.user_id == 1)
+    statement = select(FiatPayment).where(FiatPayment.user_id == 2)
     Payment = session.exec(statement).first()
     print(Payment)
