@@ -10,3 +10,8 @@ examples_pipeline = [{
   "trade_id": 1234
   }
 ]
+
+examples_trade = [{  
+  "id": 999
+}
+]

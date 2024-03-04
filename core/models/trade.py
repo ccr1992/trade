@@ -7,7 +7,7 @@ from core.models.trade_payment import TradePayment
 from core.models.pay_types import PayTypes
 from pydantic import ValidationError
 from fastapi.exceptions import RequestValidationError
-
+from pydantic import validator
 class Trade(SQLModel, PaymentABC, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
 
@@ -25,3 +25,19 @@ class Trade(SQLModel, PaymentABC, table=True):
             return user_resume, payments
         except ValidationError as e:
             raise RequestValidationError(e)
+
+    @validator("tax_trade")
+    def validate_tax_trade(cls, v):
+        if v is None:
+            return v
+        if v < 0 or v > 1:
+            raise ValueError("Se requiere una cantidad mayor o igual a 0 y menor que 1")
+        return v
+    
+    @validator("tax_block_chain")
+    def validate_tax_block_chain(cls, v):
+        if v is None:
+            return v
+        if v < 0 or v > 1:
+            raise ValueError("Se requiere una cantidad mayor o igual a 0 y menor que 1")
+        return v

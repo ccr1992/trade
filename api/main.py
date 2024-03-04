@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status
 from api.routers import user_routers
 from api.routers import public_routers
+from api.routers import trade_routers
 from fastapi.exceptions import RequestValidationError
 from api.exceptions import ObjectNotFoundError
 from api.exceptions_handlers import (
@@ -14,6 +15,7 @@ app = FastAPI(title="Trader",
               )
 app.include_router(user_routers.router)
 app.include_router(public_routers.router)
+app.include_router(trade_routers.router)
 
 app.add_exception_handler(RequestValidationError,
                           request_validation_exception_handler)

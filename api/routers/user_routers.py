@@ -15,7 +15,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.post("/create", tags=["database"])
+@router.post("/create", tags=["database"], status_code=status.HTTP_200_OK)
 async def createUser(request: User):
     try:
       User.validate(request)
@@ -23,9 +23,10 @@ async def createUser(request: User):
         raise RequestValidationError(e)
     create_user(request)
 
+    return {"healthcheck": "Everything OK!"}
+
 
 def create_user(user):
-    #TODO LLEVAR A CLASE DE MYSQL
     DatabaseHelper.add(user)
 
 @router.get("/get/{user_id}", status_code=status.HTTP_200_OK, response_model=User, tags=["database"])
@@ -33,10 +34,5 @@ async def get(request: Request, user_id):
     return get_user(user_id)
 
 def get_user(user_id):
-    engine = create_engine("sqlite:///database.db")
-
-    with Session(engine) as session:
-        statement = select(User).where(User.id == user_id)
-        result  = session.exec(statement).first()
-        return result
+    return DatabaseHelper.get_user(user_id)
 
