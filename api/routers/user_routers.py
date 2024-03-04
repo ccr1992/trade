@@ -15,7 +15,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.post("/create")
+@router.post("/create", tags=["database"])
 async def createUser(request: User):
     try:
       User.validate(request)
@@ -28,7 +28,7 @@ def create_user(user):
     #TODO LLEVAR A CLASE DE MYSQL
     DatabaseHelper.add(user)
 
-@router.get("/get/{user_id}", status_code=status.HTTP_200_OK, response_model=User)
+@router.get("/get/{user_id}", status_code=status.HTTP_200_OK, response_model=User, tags=["database"])
 async def get(request: Request, user_id):
     return get_user(user_id)
 

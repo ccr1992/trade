@@ -5,6 +5,9 @@ from fastapi.exceptions import RequestValidationError
 from core.db.database_helper import DatabaseHelper
 from fastapi.responses import JSONResponse
 import traceback
+from typing import Annotated
+from api.docs import examples_pipeline
+from fastapi import Body
 
 router = APIRouter(
     prefix="/public_methods",
@@ -13,25 +16,17 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.post("/create_payment_pipeline")
-async def create_payment_pipeline(request: Pipeline):
-    try: 
-        execute_pipeline(request)
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={
-                "message": "OK",
-                "detail": "Petición realizada correctamente",
-            })
-    except Exception as E:
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "message": "Internal Server Error",
-                "detail": "Se ha producido un error inesperado",
-                "traceback": traceback.format_exc(),
-            }
-        )
+@router.post("/create_payment_pipeline", tags=["publics"])
+async def create_payment_pipeline(request:  Annotated[Pipeline ,
+        Body(examples=examples_pipeline)]):
+    execute_pipeline(request)
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            "message": "OK",
+            "detail": "Petición realizada correctamente",
+        })
+   
 
 def execute_pipeline(pipeline):
     fiat = pipeline.payment
@@ -47,9 +42,10 @@ def execute_pipeline(pipeline):
     return user_resume
 
 
-@router.get("/get_user_resume/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResume)
+@router.get("/get_user_resume/{user_id}", status_code=status.HTTP_200_OK, response_model=UserResume, tags=["publics"])
 async def get_resume(request: Request, user_id):
     return get_user_resume(user_id)
 
 def get_user_resume(user_id):
     return DatabaseHelper.get_user(user_id).get_user_resume()
+
